@@ -1,8 +1,10 @@
-var map = L.map('map').setView([39.8282, -98.5796], 3);
+var map = L.map('map').setView([39.8282, -98.5796], 4);
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
+
+L.geoJson(states).addTo(map);
 
 function NameToCircle(cityname) {
     var result;
@@ -27,5 +29,3 @@ function NameToCircle(cityname) {
     console.log(result)
     return result;
 }
-
-L.geoJson(states).addTo(map);
