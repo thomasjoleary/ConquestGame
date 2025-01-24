@@ -27,3 +27,5 @@ function NameToCircle(cityname) {
     console.log(result)
     return result;
 }
+
+L.geoJson(states).addTo(map);
