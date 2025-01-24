@@ -14,15 +14,5 @@
     <script src="us.js"></script>
     <script src="page.js"></script>
 
-    <form>
-        <label for="city">City:</label><br>
-        <input type="text" id="cityname" name="cityname"><br>
-        <button id="submit" onclick="NameToCircle(document.getElementById('cityname').value);">Submit</button>
-        <script>
-            document.getElementById('submit').addEventListener('click', function(event) {
-                event.preventDefault();
-                document.getElementById('cityname').value = null;
-            });
-        </script>
-    </form>
+
 </div>
