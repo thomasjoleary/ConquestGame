@@ -50,16 +50,31 @@ function countStates() {
     return [player1, player2, player3, player4];
 }
 
+function countArmies() {
+    let player1 = 0;
+    let player2 = 0;
+    let player3 = 0;
+    let player4 = 0;
+    for (let i = 0; i < neighborStates.length; i++) {
+        if (neighborStates[i].Armies === 1) {
+            player1++;
+        } else if (neighborStates[i].Armies === 2) {
+            player2++;
+        } else if (neighborStates[i].Armies === 3) {
+            player3++;
+        } else if (neighborStates[i].Armies === 4) {
+            player4++;
+        }
+    }
+    return [player1, player2, player3, player4];
+}
+
 ///////////////////////////////////////////////
 // Every Turn
 
 function tableUpdate() {
-    let table = document.getElementById('info');
     let standings = countStates();
-    let p1 = document.getElementById('player1')
-    let p2 = document.getElementById('player2')
-    let p3 = document.getElementById('player3')
-    let p4 = document.getElementById('player4')
+    let armies = countArmies();
     let p1s = document.getElementById('player1States')
     let p1a = document.getElementById('player1Armies')
     let p2s = document.getElementById('player2States')
@@ -70,13 +85,13 @@ function tableUpdate() {
     let p4a = document.getElementById('player4Armies')
 
     p1s.innerHTML = standings[0];
-    //p1a.innerHTML = the armies of player 1
+    p1a.innerHTML = armies[0];
     p2s.innerHTML = standings[1];
-    //p2a.innerHTML = the armies of player 2
+    p2a.innerHTML = armies[1];
     p3s.innerHTML = standings[2];
-    //p3a.innerHTML = the armies of player 3
+    p3a.innerHTML = armies[2];
     p4s.innerHTML = standings[3];
-    //p4a.innerHTML = the armies of player 4
+    p4a.innerHTML = armies[3];
 }
 
 ///////////////////////////////////////////////
