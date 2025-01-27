@@ -2,6 +2,8 @@ let map = L.map('map', {minZoom : 4, maxZoom : 7}).setView([39.8282, -92.5796], 
 
 let geojson = null;
 
+///////////////////////////////////////////////
+// Helper Functions
 function getStateColor(state) {
     let player = null;
     for (let i = 0; i < neighborStates.length; i++) {
@@ -28,6 +30,57 @@ function setOwner(state, player) {
         }
     }
 }
+
+function countStates() {
+    let player1 = 0;
+    let player2 = 0;
+    let player3 = 0;
+    let player4 = 0;
+    for (let i = 0; i < neighborStates.length; i++) {
+        if (neighborStates[i].Owner === 1) {
+            player1++;
+        } else if (neighborStates[i].Owner === 2) {
+            player2++;
+        } else if (neighborStates[i].Owner === 3) {
+            player3++;
+        } else if (neighborStates[i].Owner === 4) {
+            player4++;
+        }
+    }
+    return [player1, player2, player3, player4];
+}
+
+///////////////////////////////////////////////
+// Every Turn
+
+function tableUpdate() {
+    let table = document.getElementById('info');
+    let standings = countStates();
+    let p1 = document.getElementById('player1')
+    let p2 = document.getElementById('player2')
+    let p3 = document.getElementById('player3')
+    let p4 = document.getElementById('player4')
+    let p1s = document.getElementById('player1States')
+    let p1a = document.getElementById('player1Armies')
+    let p2s = document.getElementById('player2States')
+    let p2a = document.getElementById('player2Armies')
+    let p3s = document.getElementById('player3States')
+    let p3a = document.getElementById('player3Armies')
+    let p4s = document.getElementById('player4States')
+    let p4a = document.getElementById('player4Armies')
+
+    p1s.innerHTML = standings[0];
+    //p1a.innerHTML = the armies of player 1
+    p2s.innerHTML = standings[1];
+    //p2a.innerHTML = the armies of player 2
+    p3s.innerHTML = standings[2];
+    //p3a.innerHTML = the armies of player 3
+    p4s.innerHTML = standings[3];
+    //p4a.innerHTML = the armies of player 4
+}
+
+///////////////////////////////////////////////
+// New Game Button
 
 function distributeStates(layer, player, los) {
     while (los.length > 0) {
@@ -72,10 +125,10 @@ newGB.onclick = function newGame() {
     let player = 1;
     let los = [];
     for (let i = 0; i < layer.length; i++) {
-        console.log(layer[i].feature.properties.name);
         los.push(layer[i].feature.properties.name);
     }
     distributeStates(layer, player, los);
+    tableUpdate();
 }
 
 ///////////////////////////////////////////////
