@@ -1,5 +1,18 @@
 let map = L.map('map', {minZoom : 4, maxZoom : 7}).setView([39.8282, -92.5796], 4);
 
+let geojson = null;
+
+let newGB = document.getElementById('newGameButton');
+newGB.onclick = function newGame() {
+    //console.log(geojson.getLayers());
+    let layer = geojson.getLayers();
+    for (let i = 0; i < layer.length; i++) {
+        console.log(layer[i].feature.properties.name);
+    }
+}
+
+///////////////////////////////////////////////
+// Neighbor Check
 let selected = null;
 
 function findNeighborsFromName(state) {
@@ -29,10 +42,11 @@ function neighborCheck(state1, state2) {
     }
     return false;
 }
-
+///////////////////////////////////////////////
+// Clicked event handler
 function clicked(e) {
     let select = e.target
-    alert("You clicked on " + e.target.feature.properties.name);
+    //alert("You clicked on " + e.target.feature.properties.name);
     if (select === selected) {
         selected = null;
         geojson.resetStyle(e.target);
@@ -53,14 +67,16 @@ function clicked(e) {
         }
     }
 }
-
+///////////////////////////////////////////////
+// Event handler applier
 function onEachFeature(feature, layer) {
     //bind click
     layer.on({
         click: clicked
     });
 }
+///////////////////////////////////////////////
 
-let geojson = L.geoJson(states, {
+geojson = L.geoJson(states, {
     onEachFeature: onEachFeature
 }).addTo(map);
