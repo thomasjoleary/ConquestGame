@@ -1,7 +1,4 @@
 const states = [
-  {
-    "type": "FeatureCollection", 
-    "features": [
       {
         "geometry": {
           "type": "MultiPolygon", 
@@ -142533,4 +142530,3 @@ const states = [
         "id": 51
       }
     ]
-  }]
