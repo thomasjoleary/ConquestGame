@@ -1,4 +1,4 @@
-const neighborStates = [
+let neighborStates = [
   {
     "Code": "USAL",
     "Neighborcodes": [ "USFL", "USGA", "USMS", "USTN" ],
