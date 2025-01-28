@@ -2,6 +2,9 @@ let map = L.map('map', {minZoom : 4, maxZoom : 7}).setView([39.8282, -92.5796], 
 
 let geojson = null;
 
+let turn = 1;
+let round = 0;
+
 ///////////////////////////////////////////////
 // Helper Functions
 function getStateColor(state) {
@@ -31,6 +34,14 @@ function setOwner(state, player) {
     }
 }
 
+function setArmies(state, armies) {
+    for (let i = 0; i < neighborStates.length; i++) {
+        if (neighborStates[i].Name === state) {
+            neighborStates[i].Armies = armies;
+        }
+    }
+}
+
 function countStates() {
     let player1 = 0;
     let player2 = 0;
@@ -56,14 +67,14 @@ function countArmies() {
     let player3 = 0;
     let player4 = 0;
     for (let i = 0; i < neighborStates.length; i++) {
-        if (neighborStates[i].Armies === 1) {
-            player1++;
-        } else if (neighborStates[i].Armies === 2) {
-            player2++;
-        } else if (neighborStates[i].Armies === 3) {
-            player3++;
-        } else if (neighborStates[i].Armies === 4) {
-            player4++;
+        if (neighborStates[i].Owner === 1) {
+            player1 += neighborStates[i].Armies;
+        } else if (neighborStates[i].Owner === 2) {
+            player2 += neighborStates[i].Armies
+        } else if (neighborStates[i].Owner === 3) {
+            player3 += neighborStates[i].Armies
+        } else if (neighborStates[i].Owner === 4) {
+            player4 += neighborStates[i].Armies
         }
     }
     return [player1, player2, player3, player4];
@@ -75,6 +86,7 @@ function countArmies() {
 function tableUpdate() {
     let standings = countStates();
     let armies = countArmies();
+    let t = document.getElementById('turn')
     let p1s = document.getElementById('player1States')
     let p1a = document.getElementById('player1Armies')
     let p2s = document.getElementById('player2States')
@@ -84,14 +96,31 @@ function tableUpdate() {
     let p4s = document.getElementById('player4States')
     let p4a = document.getElementById('player4Armies')
 
-    p1s.innerHTML = standings[0];
-    p1a.innerHTML = armies[0];
-    p2s.innerHTML = standings[1];
-    p2a.innerHTML = armies[1];
-    p3s.innerHTML = standings[2];
-    p3a.innerHTML = armies[2];
-    p4s.innerHTML = standings[3];
-    p4a.innerHTML = armies[3];
+    t.innerHTML = "Round " + round + ", Player " + turn + "'s turn";
+    p1s.innerHTML = standings[0] + " states";
+    p1a.innerHTML = armies[0] + " armies";
+    p2s.innerHTML = standings[1] + " states";
+    p2a.innerHTML = armies[1] + " armies";
+    p3s.innerHTML = standings[2] + " states";
+    p3a.innerHTML = armies[2] + " armies";
+    p4s.innerHTML = standings[3] + " states";
+    p4a.innerHTML = armies[3] + " armies";
+}
+
+///////////////////////////////////////////////
+// Next Turn
+
+
+
+let nxtBtn = document.getElementById('nextTurnButton');
+nxtBtn.onclick = function nextTurn() {
+    if (turn % 4 === 0) {
+        round++;
+        turn = 1;
+    } else {
+        turn++;
+    }
+    tableUpdate();
 }
 
 ///////////////////////////////////////////////
@@ -129,6 +158,7 @@ function distributeStates(layer, player, los) {
                     setOwner(randomState, player);
                     player = 1;
                 }
+                setArmies(randomState, 1);
             }
         }
     }
